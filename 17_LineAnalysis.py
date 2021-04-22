@@ -11,7 +11,7 @@ def LineAnalysis(line):
     template = ""
     for i in range(len(line)):
         template += line[i]
-        if (line[i] != "*" and line[i + 1] == "*"):
+        if (line[i] != "*" and line[i + 1] == "*") or ((line[i] == "*" and line[i + 1] == "*")):
             k = i + 1
             break
     if len(line) > 1:
