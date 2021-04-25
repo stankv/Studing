@@ -4,7 +4,7 @@ def ShopOLAP(N, items):
     S = []
     si =[]
     for i in range(N):
-        str1 = items1[i]
+        str1 = items[i]
         si = str1.split()
         S.append(si)
 
