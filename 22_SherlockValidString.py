@@ -23,7 +23,6 @@ def SherlockValidString(s):
         S.append(si)
         si = []            
         i += 1
-    for j in range(len(S)):
 
     # формируем массив - количества вхождений букв
     L = []
