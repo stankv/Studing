@@ -29,6 +29,6 @@ def BiggerGreater(input_str):
     while(NextSet(a, n)):
         S.append(''.join(a))
     if len(S) == 0:
-        return " "
+        return ""
     else:
         return ''.join(S[0])
