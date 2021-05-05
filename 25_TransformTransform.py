@@ -7,7 +7,7 @@ def TransformTransform(A, N):
         for i in range(len(A) - 1):
             for j in range(len(A) - i - 1):
                 k = i + j
-                B.append(max(A[j:k]))
+                B.append(max(A[j:k], default=0))
         return B
 
     if sum(S(S(A))) % 2 == 0:
