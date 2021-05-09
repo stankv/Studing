@@ -34,7 +34,7 @@ def Football(F, N):
                             return False
                     else:
                         return False
-        return True
+        return False
 
     
     # правило 2 - меняем на обратный порядок кусок последовательности в массиве
@@ -62,7 +62,7 @@ def Football(F, N):
                     return True
                 else:
                     return False
-        return True
+        return False
 
 
     if rule1(F):
