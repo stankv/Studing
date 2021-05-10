@@ -15,7 +15,7 @@ def Keymaker(k):
                 S[j] = "1"
             else:
                 S[j] = "0"
-        print(n + 1, " ", end = '')
+        #print(n + 1, " ", end = '')
         stroka = "".join(S)
         #print(stroka)
         n += 1
