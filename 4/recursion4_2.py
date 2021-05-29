@@ -1,7 +1,7 @@
 # Проверка, является ли строка палиндромом (используем стек)
 def CheckPalindrom(stroka):
     stack = list(stroka.replace(' ', ''))    # удаляем пробелы из строки и заносим ее в стек
-    N = len(stroka1) // 2
+    N = len(stack) // 2
     result = True
     for i in range(N):
         if stack[i] == stack.pop():
