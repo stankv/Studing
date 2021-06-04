@@ -3,37 +3,25 @@
 
 import os
 
+def Solve(path1):
+    A = []
+    for root, dirs, files in os.walk(path1):
+        # Текущий каталог в рут. перебираем файлы из списка files 
+        for file in files:
+            A.append(os.path.join(root,file))
+        for dir in dirs:
+            Solve(os.path.join(root,dir))
+    return A
+
 def FindFiles(path):
-
-    def Solving(pathtodir):
-        for root, dirs, files in os.walk(pathtodir):
-                for file in files:
-                    filelist.append(os.path.join(root,file))
-                if dirs == []:
-                    return filelist
-                else:
-                    for dir in dirs:
-                        return Solving(pathtodir + "\\" + dir)
-
-
-    filelist = []
+    A = []
     if not os.path.isdir(path):    #  проверка существования каталога
-        return filelist
+        return A
     else:
-        new_path = path
-        Solving(path)
-        for root, dirs, files in os.walk(path):
-            k = 0
-            for dirname in dirs:
-                if k == 0:
-                    k = 1
-                    continue
-                new_path = path + "\\" + dirname
-                Solving(new_path)
-            return filelist
-        
+        return Solve(path)
 
-my_path ="E:\PROG\Temp1"
+
+my_path ="E:\PROG"
 filelist1 = FindFiles(my_path)
 if filelist1 == []:
     print("Каталог не найден")
