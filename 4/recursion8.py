@@ -16,14 +16,17 @@ def Solve(path1):
 def FindFiles(path):
     A = []
     if not os.path.isdir(path):    #  проверка существования каталога
+        A.append(1)
         return A
     else:
         return Solve(path)
 
 
-my_path ="E:\PROG"
+my_path ="E:\PROG\Temp1"
 filelist1 = FindFiles(my_path)
 if filelist1 == []:
+    print("Каталог пустой")
+elif filelist1 == [1]:
     print("Каталог не найден")
 else:
     for name in filelist1:
