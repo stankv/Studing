@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ETree
 import os.path
 
 xml1 = ETree.parse(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo.xml'))
-root1 = xml1.getroot()
+root = xml1.getroot()
 
 List_values = []
 def ListValues(tag_name, root):
@@ -21,5 +21,3 @@ def ListValues(tag_name, root):
             level2 = root[i]
             ListValues(tag_name, level2)
     return List_values
-
-print(ListValues(" ", root1))
