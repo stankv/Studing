@@ -6,8 +6,7 @@ import os.path
 xml1 = ETree.parse(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo.xml'))
 root = xml1.getroot()
 
-List_values = []
-def ListValues(tag_name):
+def ListValues(tag_name, root, List_values):
     for i in range(len(root)):
         if len(root[i]) == 0 and root[i].tag == tag_name:
             List_values.append(root[i].text)
