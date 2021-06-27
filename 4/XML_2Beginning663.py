@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ETree
 import os.path
 
-my_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo1.xml')
+my_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo.xml')
 xml1 = ETree.parse(my_path)
 root = xml1.getroot()
 
