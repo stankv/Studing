@@ -7,7 +7,7 @@ from XML_2Beginning663 import DelOfNodes
 class XML2_Test_663(unittest.TestCase):
     
     def setUp(self):
-        self.my_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo1.xml')
+        self.my_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../4/data/demo.xml')
         xml1 = ETree.parse(self.my_path)
         self.root = xml1.getroot()
 
