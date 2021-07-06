@@ -9,8 +9,8 @@ class Simultaneous(unittest.TestCase):
         self.Number_tests = random.randint(1, 10)    # случайное число тестов
         self.Lenght_Massiv = random.randint(1, 200)    # случайный размер входного массива
 
-    def Rounding(self,number):    # округление вещественных чисел до 6-го знака
-        number = int(number * 1000000) / 1000000
+    def Rounding(self,number):    # "округление" вещественных чисел до 6-го знака
+        number = int(number * 1000000)
         return number
 
 
