@@ -41,11 +41,14 @@ def Concurrency(N, L):
             Threads.append(t)
             t.start()
             i += 1
-        time.sleep(5.0)
-        # Если мы хотим подождать завершения каждого процесса, то с цикла ниже снять комментирование, и закомментить верхнюю строку
-        #for t in Threads:
-            #t.join()
-        success = sum(results.values())
+        # ожидаем окончания выполнения всех процессов
+        proc_running = True
+        while(proc_running):
+            proc_running = False
+            for t in Threads:
+                if t.is_alive():
+                    proc_running = True
+        success = sum(results.values())    # суммируем результаты работы процессов
         return success
     else:
         return sum(L)
