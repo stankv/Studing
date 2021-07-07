@@ -31,6 +31,15 @@ def Generators(L):
         for i in range(N):
             if R[ID[i]] is None: 
                 R[ID[i]] = next(Id[i])
+
+    # ожидаем завершения выполнения всех генераторов
+    proc_running = True
+    while(proc_running):
+        proc_running = False
+        for r in range(N):
+            if R[ID[r]] == None:
+                proc_running = True
+                break    # сразу выходим из for если данный процесс продолжается
     print(R)
 
 N0 = random.randint(3, 10)
