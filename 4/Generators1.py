@@ -27,19 +27,15 @@ def Generators(L):
         Id.append(IDk)
         R[IDn] = None
 
-    for j in range(max(L)):
-        for i in range(N):
-            if R[ID[i]] is None: 
-                R[ID[i]] = next(Id[i])
-
     # ожидаем завершения выполнения всех генераторов
     proc_running = True
-    while(proc_running):
+    while(proc_running):    # цикл продолжает работать пока работает хоть один генератор
         proc_running = False
-        for r in range(N):
-            if R[ID[r]] == None:
+        for i in range(N):
+            if R[ID[i]] is None:
                 proc_running = True
-                break    # сразу выходим из for если данный процесс продолжается
+                R[ID[i]] = next(Id[i])
+                    # здесь убран break чтобы внутренний цикл не прерывался, а проходил по всем генераторам
     print(R)
 
 N0 = random.randint(3, 10)
