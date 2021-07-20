@@ -3,12 +3,16 @@ from socketserver import BaseRequestHandler, TCPServer
 
 class TestTCPHandler(BaseRequestHandler):
     def handle(self):
-        print("handle activated", self.client_address)
         self.data = self.request.recv(1024).strip()
+        print("{} wrote:".format(self.client_address), end='')
         print(self.data)
-        self.request.send(b"privet, client")
+        # just send back the same data, but upper-cased
+        self.request.sendall(bytes(self.data.upper()))
 
-
-server = TCPServer(('localhost', 12345), TestTCPHandler)
+HOST, PORT = "localhost", 12345
 print("Server activated")
-server.serve_forever()
+# Create the server, binding to localhost on port 12345
+with TCPServer((HOST, PORT), TestTCPHandler) as server:
+    # Activate the server; this will keep running until you
+    # interrupt the program with Ctrl-C
+    server.serve_forever()
