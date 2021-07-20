@@ -1,4 +1,4 @@
-# Простой асинхронный TCP-сервер
+# Простой асинхронный TCP-сервер. Реализация подсказана на
 # https://docs-python.ru/standart-library/modul-socketserver-python/klassy-forkingmixin-threadingmixin-modulja-socketserver/
 from socketserver import BaseRequestHandler, TCPServer, ThreadingMixIn
 from threading import Thread
@@ -15,9 +15,7 @@ class TestTCPHandler(BaseRequestHandler):
 class ThreadedTCPServer(ThreadingMixIn, TCPServer):
     pass
 
-#server = ThreadedTCPServer(('localhost', 12345), TestTCPHandler)
 print("Server activated")
-#server.serve_forever()
 with ThreadedTCPServer(('localhost', 12345), TestTCPHandler) as server:
     # Запускаем поток с сервером - этот поток затем 
     # запустит еще один поток для каждого запроса
