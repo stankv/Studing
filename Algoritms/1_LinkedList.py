@@ -62,6 +62,8 @@ class LinkedList:
                     if node.next is not None:
                         self.head = node.next
                         node = node.next
+                        if not all:
+                            return
                     else:
                         # удалить весь список
                         self.clean()
@@ -71,7 +73,6 @@ class LinkedList:
             # ищем узел внутри списка и удаляем его, если он есть (значение совпадает с заданным)
             #node = self.head
             while node is not None:
-                new = node.next
                 if node.next is None:
                     if node.value == val:
                         node = None
