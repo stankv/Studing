@@ -5,8 +5,9 @@ from tkinter import ttk
 from tkinter.filedialog import asksaveasfile, askopenfile
 from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
-from tkinter.constants import BOTH, END, INSERT, LEFT
+from tkinter.constants import BOTH, END, INSERT, LEFT, WORD
 from tkinter import colorchooser
+import tkinter.font as tkFont
 
 # ФУНКЦИИ МЕНЮ -----------------------------------------------------------------------------------------------------------
 FILE_NAME = tk.NONE
@@ -139,14 +140,82 @@ def insert_text():
 
 #-------------------------------------------------------------------------------------------------------------------------
 # ФУНКЦИИ ОКНА НАСТРОЕК РЕДАКТОРА ----------------------------------------------------------------------------------------
+
 # Ф-я создания дочернего окна - настройки для редактора
 def winSet():
-    def choose_color():
-        return colorchooser.askcolor()[1]    # возвращает выбранный цвет
+
+    # Ф-я выбора цвета текста
+    def choose_color_fg():
+        my_font_color = colorchooser.askcolor()[1]    # возвращает выбранный цвет
+        mytext.configure(fg=my_font_color)
+        color_field1.create_rectangle(0, 0, 50, 30, fill=my_font_color, outline='white', width=3)
+
+    # Ф-я выбора цвета фона текста
+    def choose_color_bg():
+        my_font_bgcolor = colorchooser.askcolor()[1]    # возвращает выбранный цвет
+        mytext.configure(bg=my_font_bgcolor)
+        color_field2.create_rectangle(0, 0, 50, 30, fill=my_font_bgcolor, outline='white', width=3)
+
+    # Ф-я выбора шрифта
+    def choose_font(event):
+        myfont = combo_font.get()
+        num_font = fonts.index(myfont)
+        myfont_size = combo_size.get()
+        mytext.configure(font=(myfont, myfont_size))
+        combo_font.current(num_font)
+        font_size_default.set(myfont_size)
+
+    # Ф-я выбора размера шрифта
+    def choose_font_size():
+        myfont = combo_font.get()
+        num_font = fonts.index(myfont)
+        myfont_size = combo_size.get()
+        mytext.configure(font=(myfont, myfont_size))
+        combo_font.current(num_font)
+        font_size_default.set(myfont_size)
+
+    # Ф-я выбора вида текста (строчный/заглавный)
+    def form1_text():
+        t = r_var.get()
+        strtext = mytext.get(1.0, END)
+        mytext.delete(1.0, END)
+        if t == 0:
+            pass
+        elif t == 1:
+            strtext = strtext.lower()
+        elif t == 2:
+            strtext = strtext.upper()
+        mytext.insert(1.0, strtext)
+
+    # Ф-я выбора отображения текста (жирный/курсив/подчеркнутый)
+    def form2_text():
+        c11 = c1.get()    # жирный текст
+        c22 = c2.get()    # курсив
+        c33 = c3.get()    # подчеркнутый
+        myfont = combo_font.get()
+        myfont_size = combo_size.get()
+        if c11 == 1 and c22 == 0 and c33 == 0:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="bold", slant="roman", underline=False)
+        elif c11 == 1 and c22 == 1 and c33 == 0:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="bold", slant="italic", underline=False)
+        elif c11 == 1 and c22 == 1 and c33 == 1:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="bold", slant="italic", underline=True)
+        elif c11 == 0 and c22 == 1 and c33 == 1:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="normal", slant="italic", underline=True)
+        elif c11 == 0 and c22 == 0 and c33 == 1:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="normal", slant="roman", underline=True)
+        elif c11 == 1 and c22 == 0 and c33 == 1:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="bold", slant="roman", underline=True)
+        elif c11 == 0 and c22 == 0 and c33 == 0:
+            fontView = tkFont.Font(family=myfont, size=myfont_size, weight="normal", slant="roman", underline=False)
+        mytext.configure(font=fontView)
 
     winSetting = tk.Toplevel()    # создаем дочернее окно
     winSetting.title("Настройки редактора")
     winSetting.geometry('400x300+200+200')
+    #winSetting.attributes("-topmost",True)    # делаем окно поверх всех остальных
+    winSetting.grab_set()    # перехватывает все события пока это окно открыто
+    winSetting.focus_set()    # держит фокус на окне пока оно открыто
     # Создаем вкладки
     tab_control = ttk.Notebook(winSetting)
     # вкладка "Шрифт". О настройке шрифтов https://www.delftstack.com/ru/howto/python-tkinter/how-to-set-font-of-tkinter-text-widget/
@@ -155,16 +224,19 @@ def winSet():
     tab_control.pack(expand=1, fill='both')
     lbl1 = tk.Label(tab1, text="Шрифт текста:  ")
     lbl1.grid(row=3, column=0, padx=10, pady=20)
-    fonts = ("Arial", "Times New Roman", "Verdana", "Tahoma")
+    fonts = ('Arial', 'Times New Roman', 'Verdana', 'Tahoma')
     combo_font = ttk.Combobox(tab1, values=fonts)
     combo_font.current(0)    # шрифт по умолчанию = индексу элемента в кортеже
     combo_font.grid(row=3, column=1, padx=10, pady=20)
+    combo_font.bind("<<ComboboxSelected>>", choose_font)    # вызов функции выбора шрифта
     lbl2 = tk.Label(tab1, text="Размер шрифта:")
     lbl2.grid(row=5, column=0, padx=10, pady=20)
-    font_size_default = tk.StringVar(root)    # устанавливаем значение размера шрифта по умолчанию
-    font_size_default.set("12")
-    combo_size = tk.Spinbox(tab1, from_=8, to=72, width=5, textvariable=font_size_default)
+    font_size_default = tk.IntVar(root)    # устанавливаем значение размера шрифта по умолчанию
+    font_size_default.set(12)
+    combo_size = ttk.Spinbox(tab1, from_=8, to=72, width=5, textvariable=font_size_default, command=choose_font_size)
     combo_size.grid(row=5, column=1, padx=10, pady=20, sticky='w')
+    #combo_size.bind("<<Increment>>", choose_font_size)
+    #combo_size.bind("<<Decrement>>", choose_font_size)
     
     # вкладка "Цвет"
     tab2 = ttk.Frame(tab_control)
@@ -175,7 +247,7 @@ def winSet():
     color_field1 = tk.Canvas(tab2, width=50, height=30, bg='light green')
     color_field1.grid(row=1, column=1, pady=20, sticky='w')
     color_field1.create_rectangle(0, 0, 50, 30, fill='yellow', outline='white', width=3)
-    btn2 = tk.Button(tab2, text="Выбрать", command=choose_color)
+    btn2 = tk.Button(tab2, text="Выбрать", command=choose_color_fg)
     btn2.grid(row=1, column=3, padx=10, pady=20)
     #color_field.create_rectangle(0, 0, 50, 30, fill=choose_color(), outline='white', width=3)
     lbl4 = tk.Label(tab2, text="Цвет фона:")
@@ -183,7 +255,7 @@ def winSet():
     color_field2 = tk.Canvas(tab2, width=50, height=30, bg='light green')
     color_field2.grid(row=2, column=1, pady=20, sticky='w')
     color_field2.create_rectangle(0, 0, 50, 30, fill='black', outline='white', width=3)
-    btn3 = tk.Button(tab2, text="Выбрать", command=choose_color)
+    btn3 = tk.Button(tab2, text="Выбрать", command=choose_color_bg)
     btn3.grid(row=2, column=3, padx=10, pady=20)
 
     # вкладка "Дополнительно"
@@ -194,18 +266,30 @@ def winSet():
     lbFrD1.pack(fill=BOTH, padx=5, pady=10)
     lbFrD2 = tk.LabelFrame(tab3, width=300, height=50,text='Начертание текста')
     lbFrD2.pack(fill=BOTH, padx=5, pady=10)
-
+    # радиокнопки
     r_var = tk.IntVar()
     r_var.set(0)    # по радиокнопкам и чекбоксам хороший материал https://younglinux.info/tkinter/variable
-    rad1 = tk.Radiobutton(lbFrD1,text='Обычный текст', variable=r_var, value=0).grid(row=1, column=0, pady=10)
-    rad2 = tk.Radiobutton(lbFrD1,text='Все строчные', variable=r_var, value=1).grid(row=1, column=1, pady=10)
-    rad3 = tk.Radiobutton(lbFrD1,text='Все заглавные', variable=r_var, value=2).grid(row=1, column=2, pady=10)
+    rad1 = tk.Radiobutton(lbFrD1,text='Обычный текст', variable=r_var, value=0, command=form1_text)
+    rad1.grid(row=1, column=0, pady=10)
+    rad2 = tk.Radiobutton(lbFrD1,text='Все строчные', variable=r_var, value=1, command=form1_text)
+    rad2.grid(row=1, column=1, pady=10)
+    rad3 = tk.Radiobutton(lbFrD1,text='Все заглавные', variable=r_var, value=2, command=form1_text)
+    rad3.grid(row=1, column=2, pady=10)
     tk.Label(lbFrD1, text=" ").grid(row=2, column=0, padx=10)
-    chk1 = tk.Checkbutton(lbFrD2, text='Жирный').grid(row=5, column=0, padx=10, pady=10)
-    chk2 = tk.Checkbutton(lbFrD2, text='Курсив').grid(row=5, column=1, padx=10, pady=10)
-    chk3 = tk.Checkbutton(lbFrD2, text='Подчеркнутый').grid(row=5, column=2, padx=10, pady=10)
+    # чекбоксы
+    c1 = tk.IntVar()
+    c2 = tk.IntVar()
+    c3 = tk.IntVar()
+    c1.set(0)
+    c2.set(0)
+    c3.set(0)
+    chk1 = tk.Checkbutton(lbFrD2, text='Жирный', variable=c1, onvalue=1, offvalue=0,command=form2_text)
+    chk1.grid(row=5, column=0, padx=10, pady=10)
+    chk2 = tk.Checkbutton(lbFrD2, text='Курсив', variable=c2, onvalue=1, offvalue=0,command=form2_text)
+    chk2.grid(row=5, column=1, padx=10, pady=10)
+    chk3 = tk.Checkbutton(lbFrD2, text='Подчеркнутый', variable=c3, onvalue=1, offvalue=0,command=form2_text)
+    chk3.grid(row=5, column=2, padx=10, pady=10)
     tk.Label(lbFrD2, text=" ").grid(row=6, column=0, padx=10)
-
 #-------------------------------------------------------------------------------------------------------------------------
 
 # ИНТЕРФЕЙС ОСНОВНОГО ОКНА И РАБОЧЕЙ ОБЛАСТИ -----------------------------------------------------------------------------
@@ -224,7 +308,7 @@ lbFr1.grid_propagate(False)    # запрет на изменение разме
 lbFr2 = tk.LabelFrame(root, width=260, height=350, text='Калькулятор', font=('Arial', 12), fg='blue')
 lbFr2.grid(row=1, column=1, padx=10, pady=20)
 lbFr2.grid_propagate(False)    # запрет на изменение размеров при изменении размеров содержимого
-mytext = ScrolledText(lbFr1, width=60,height=20, wrap = 'word', font=('Arial', 16), fg='blue')
+mytext = ScrolledText(lbFr1, width=60,height=20, wrap=WORD, font=('Arial', 16), fg='blue')
 mytext.grid(column=0,row=0)
 mytext.grid_propagate(False)    # запрет на изменение размеров при изменении размеров содержимого
 
