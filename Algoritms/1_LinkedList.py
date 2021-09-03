@@ -56,25 +56,34 @@ class LinkedList:
             self.tail = None
             return
         elif self.len() > 1:
-            if node.value == val:    # если заданное значение = значению 1-го узла
-                self.head = node.next
-                if not all:
+            node = self.head
+            while node is not None:    # "отсекаем голову" если там есть искомые значения
+                if node.value == val:    # если заданное значение = значению 1-го узла
+                    if node.next is not None:
+                        self.head = node.next
+                        node = node.next
+                    else:
+                        # удалить весь список
+                        self.clean()
+                        return
+                else:
+                    break
+            # ищем узел внутри списка и удаляем его, если он есть (значение совпадает с заданным)
+            #node = self.head
+            while node is not None:
+                new = node.next
+                if node.next is None:
+                    if node.value == val:
+                        node = None
                     return
-            else:    # ищем узел внутри списка и удаляем его, если он есть (значение совпадает с заданным)
-                node = self.head
-                count = 1
-                while node is not None:
-                    new = node.next
-                    count += 1
-                    if new.value == val:
-                        if new == self.tail:
-                            node.next = None
-                        else:
-                            node.next = node.next.next
+                else:
+                    if node.next.value == val:
+                        node.next = node.next.next
                         if not all:
                             return
-                    if count == self.len() - 1:
-                        return
+                if node.next is None:
+                    return
+                if node.next.value != val:
                     node = node.next
         return
 
