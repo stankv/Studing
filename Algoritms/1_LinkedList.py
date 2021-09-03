@@ -24,7 +24,7 @@ class LinkedList:
     def print_all_nodes(self):
         node = self.head
         while node != None:
-            print(node.value, ' ', end='') # убрать энд!!!
+            print(node.value)
             node = node.next
 
     # Метод поиска узла по заданному значению
@@ -46,13 +46,14 @@ class LinkedList:
             node = node.next
         return S
 
-    # Метод удаления одного узла/всех узлов по заданному значению
+    # Метод удаления одного узла (all=False)/всех узлов (all=True) по заданному значению
     def delete(self, val, all):
         node = self.head
         if self.len() == 0:    # если список пустой то ничего не делаем
             return
         elif self.len() == 1 and node.value == val:    # если в связанном списке только 1 узел обнуляем список
-            self.__init__(self)
+            self.head = None    
+            self.tail = None
             return
         elif self.len() > 1:
             if node.value == val:    # если заданное значение = значению 1-го узла
@@ -61,8 +62,10 @@ class LinkedList:
                     return
             else:    # ищем узел внутри списка и удаляем его, если он есть (значение совпадает с заданным)
                 node = self.head
+                count = 1
                 while node is not None:
                     new = node.next
+                    count += 1
                     if new.value == val:
                         if new == self.tail:
                             node.next = None
@@ -70,13 +73,16 @@ class LinkedList:
                             node.next = node.next.next
                         if not all:
                             return
+                    if count == self.len() - 1:
+                        return
                     node = node.next
         return
 
 
     # Метод очистки всего содержимого (создание пустого списка)
     def clean(self):
-        self.__init__(self)
+        self.head = None    
+        self.tail = None
 
     # Метод вычисления текущей длины списка
     def len(self):
