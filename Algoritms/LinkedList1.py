@@ -47,7 +47,7 @@ class LinkedList:
         return S
 
     # Метод удаления одного узла (all=False)/всех узлов (all=True) по заданному значению
-    def delete(self, val, all):
+    def delete(self, val, all=False):
         node = self.head
         if self.len() == 0:    # если список пустой то ничего не делаем
             return
