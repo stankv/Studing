@@ -7,13 +7,11 @@ class delete_test(unittest.TestCase):
 
 # РЕГРЕССИОННЫЕ ТЕСТЫ
 
-
-
 # 1. Пустой связанный список, all=False
     def test_regression1(self):
         s_list = LinkedList()
         n1 = Node(10)
-        s_list.delete(10, False)
+        s_list.delete(10)
         L = node_list(s_list)
         self.assertEqual(L, [])
 
@@ -30,7 +28,7 @@ class delete_test(unittest.TestCase):
         s_list = LinkedList()
         n1 = Node(10)
         s_list.add_in_tail(n1)
-        s_list.delete(10, False)
+        s_list.delete(10)
         L = node_list(s_list)
         self.assertEqual(L, [])
 
@@ -52,7 +50,7 @@ class delete_test(unittest.TestCase):
         s_list.add_in_tail(n1)
         s_list.add_in_tail(n2)
         s_list.add_in_tail(n3)
-        s_list.delete(10, False)
+        s_list.delete(10)
         L = node_list(s_list)
         self.assertEqual(L, [n2,n3])
 
@@ -65,7 +63,7 @@ class delete_test(unittest.TestCase):
         s_list.add_in_tail(n1)
         s_list.add_in_tail(n2)
         s_list.add_in_tail(n3)
-        s_list.delete(30, False)
+        s_list.delete(30)
         L = node_list(s_list)
         self.assertEqual(L, [n1,n2])
 
@@ -80,7 +78,7 @@ class delete_test(unittest.TestCase):
         s_list.add_in_tail(n2)
         s_list.add_in_tail(n3)
         s_list.add_in_tail(n4)
-        s_list.delete(30, False)
+        s_list.delete(30)
         L = node_list(s_list)
         self.assertEqual(L, [n1,n2,n4])
 
