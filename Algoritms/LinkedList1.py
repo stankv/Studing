@@ -46,47 +46,53 @@ class LinkedList:
             node = node.next
         return S
 
-    # Метод удаления одного узла (all=False)/всех узлов (all=True) по заданному значению
+    
+
     def delete(self, val, all=False):
+        k = self.len()    # вычисляем длину списка 1 раз, чтобы не делать этого каждый раз дальше
         node = self.head
-        if self.len() == 0:    # если список пустой то ничего не делаем
+        if k == 0:    # если список пустой то ничего не делаем
             return
-        elif self.len() == 1 and node.value == val:    # если в связанном списке только 1 узел обнуляем список
+        elif k == 1 and node.value == val:    # если всего 1 узел и его значение = val, то обнуляем список
             self.head = None    
             self.tail = None
             return
-        elif self.len() > 1:
-            node = self.head
-            while node is not None:    # "отсекаем голову" если там есть искомые значения
-                if node.value == val:    # если заданное значение = значению 1-го узла
-                    if node.next is not None:
-                        self.head = node.next
-                        node = node.next
-                        if not all:
-                            return
-                    else:
-                        # удалить весь список
-                        self.clean()
+        elif k > 1:    # если в списке несколько узлов
+            while node is not None:
+                if self.head.value == val:
+                    if node.next is None:
+                        self.head = None
+                        self.tail = None
+                        return
+                    self.head = node.next
+                    if not all:
                         return
                 else:
-                    break
-            # ищем узел внутри списка и удаляем его, если он есть (значение совпадает с заданным)
-            #node = self.head
-            while node is not None:
-                if node.next is None:
-                    if node.value == val:
+                    if node.next is None:
+                        if node.value == val:
+                            self.tail = last
+                            node = None
+                            last.next = None
+                            return
+                        self.tail = node
+                        return
+                    elif node.value == val and node.next.value == val and node.next.next is None:
+                        self.tail = last
                         node = None
-                    return
-                else:
-                    if node.next.value == val:
+                        last.next = None
+                        return
+                    elif node.next.value == val and node.next.next is None:
+                        node.next = None
+                        self.tail = node
+                        return
+                    elif node.next.value == val and node.next.next is not None:
                         node.next = node.next.next
                         if not all:
                             return
-                if node.next is None:
-                    return
-                if node.next.value != val:
-                    node = node.next
-        return
+                if node.value != val:
+                    last = node
+                node = node.next
+            return
 
 
     # Метод очистки всего содержимого (создание пустого списка)
