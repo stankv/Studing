@@ -76,6 +76,10 @@ class LinkedList:
                             return
                         self.tail = node
                         return
+                    elif node.value == val and node.next.value != val and node.next.next is not None:
+                        last.next = node.next
+                    elif node.value == val and node.next.value == val and node.next.next is not None:
+                        last.next = node.next.next
                     elif node.value == val and node.next.value == val and node.next.next is None:
                         self.tail = last
                         node = None
