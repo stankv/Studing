@@ -101,7 +101,8 @@ class LinkedList2:
     def insert(self, afterNode, newNode):
         length = self.len()    # вычисляем 1 раз чтобы не делать этого несколько раз в if-ах
         if afterNode == None and self.head is None:    # если список пустой и afterNode=None
-            self.head = newNode
+            #self.head = newNode    # неправильно, этого не достаточно
+            self.add_in_tail(newNode)
             return
         elif afterNode == None and self.head is not None:    # если список не пустой и afterNode=None
             self.add_in_tail(newNode)
@@ -128,15 +129,17 @@ class LinkedList2:
     # 7. Метод вставки узла самым первым элементом
     def add_in_head(self, newNode):
         if self.head is None:    # если список пустой
-            self.head = newNode
+            #self.head = newNode    # неверно, этого не достаточно
+            self.add_in_tail(newNode)
             return
         newNode.next = self.head
         self.head.prev = newNode
         self.head = newNode
         return
 
-    def print_all_nodes(self):
-        node = self.head
-        while node is not None:
-            print(node.value)
-            node = node.next
+    # Отладочный вывод значений узлов всего списка
+    #def print_all_nodes(self):
+        #node = self.head
+        #while node is not None:
+            #print(node.value)
+            #node = node.next
