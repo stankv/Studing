@@ -78,40 +78,40 @@ class insert_test(unittest.TestCase):
 
 # 9.1. Проверка размера буфера после вставки в 0-ю позицию (сравнение до и после)
     def test_regression9_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
         da.insert(0, 1000)
-        b = da.capacity    # = 64 после
+        b = da.capacity    # = 32 после
         self.assertEqual(a * 2, b)
 
 # 9.2. Проверка количества элементов после вставки в 0-ю позицию (сравнение до и после)
     def test_regression9_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
         da.insert(0, 1000)
-        b = da.count    # = 33 после
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
 # 10. Вставка в 1-ю позицию
     def test_regression10(self):
-        da = make_da(32)
+        da = make_da(16)
         da.insert(1, 1000)
         self.assertEqual(da[1], 1000)
 
 # 10.1. Проверка размера буфера после вставки в 1-ю позицию (сравнение до и после)
     def test_regression10_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
-        da.insert(0, 1000)
-        b = da.capacity    # = 64 после
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
+        da.insert(1, 1000)
+        b = da.capacity    # = 32 после
         self.assertEqual(a * 2, b)
 
 # 10.2. Проверка количества элементов после вставки в 1-ю позицию (сравнение до и после)
     def test_regression10_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
-        da.insert(0, 1000)
-        b = da.count    # = 33 после
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
+        da.insert(1, 1000)
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
 # 11. Вставка в середину
@@ -122,18 +122,18 @@ class insert_test(unittest.TestCase):
 
 # 11.1. Проверка размера буфера после вставки в середину (сравнение до и после)
     def test_regression11_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
-        da.insert(15, 1000)
-        b = da.capacity    # = 64 до вставки
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
+        da.insert(8, 1000)
+        b = da.capacity    # = 32 до вставки
         self.assertEqual(a * 2, b)
 
 # 11.2. Проверка количества элементов после вставки в середину (сравнение до и после)
     def test_regression11_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
-        da.insert(15, 1000)
-        b = da.count    # = 33 после
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
+        da.insert(8, 1000)
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
 # 12. Вставка в предпоследнюю позицию
@@ -144,18 +144,18 @@ class insert_test(unittest.TestCase):
 
 # 12.1. Проверка размера буфера после вставки в предпоследнюю позицию (сравнение до и после)
     def test_regression12_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
-        da.insert(30, 1000)
-        b = da.capacity    # = 64 до вставки
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
+        da.insert(14, 1000)
+        b = da.capacity    # = 32 до вставки
         self.assertEqual(a * 2, b)
 
 # 12.2. Проверка количества элементов после вставки в предпоследнюю позицию (сравнение до и после)
     def test_regression12_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
-        da.insert(30, 1000)
-        b = da.count    # = 33 после
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
+        da.insert(14, 1000)
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
 # 13. Вставка в последнюю позицию
@@ -166,49 +166,58 @@ class insert_test(unittest.TestCase):
 
 # 13.1. Проверка размера буфера после вставки в последнюю позицию (сравнение до и после)
     def test_regression13_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
-        da.insert(31, 1000)
-        b = da.capacity    # = 64 до вставки
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
+        da.insert(15, 1000)
+        b = da.capacity    # = 32 до вставки
         self.assertEqual(a * 2, b)
 
 # 13.2. Проверка количества элементов после вставки в последнюю позицию (сравнение до и после)
     def test_regression13_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
-        da.insert(31, 1000)
-        b = da.count    # = 33 после
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
+        da.insert(15, 1000)
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
 # 14. Вставка в позицию, равную длине рабочего массива
     def test_regression14(self):
-        da = make_da(32)
-        da.insert(32, 1000)
-        self.assertEqual(da[32], 1000)
+        da = make_da(16)
+        da.insert(16, 1000)
+        self.assertEqual(da[16], 1000)
 
 # 14.1. Проверка размера буфера после вставки в позицию, равную длине рабочего массива (сравнение до и после)
     def test_regression14_1(self):
-        da = make_da(32)
-        a = da.capacity    # = 32 до вставки
-        da.insert(32, 1000)
-        b = da.capacity    # = 64 до вставки
+        da = make_da(16)
+        a = da.capacity    # = 16 до вставки
+        da.insert(16, 1000)
+        b = da.capacity    # = 32 до вставки
         self.assertEqual(a * 2, b)
 
 # 14.2. Проверка количества элементов после вставки в позицию, равную длине рабочего массива (сравнение до и после)
     def test_regression14_2(self):
-        da = make_da(32)
-        a = da.count    # = 32 до вставки
-        da.insert(32, 1000)
-        b = da.count    # = 33 после
+        da = make_da(16)
+        a = da.count    # = 16 до вставки
+        da.insert(16, 1000)
+        b = da.count    # = 17 после
         self.assertEqual(a + 1, b)
 
-# 15. Попытка вставки элемента в недопустимую позицию
+# 15. Вставка в позицию, равную длине рабочего массива после вставки в середину
     def test_regression15(self):
+        da = make_da(16)
+        da.insert(8, 1000)
+        da.insert(da.count, 0)
+        self.assertEqual(da[17], 0)
+#-----------------------------------------------------------------------------------------------------------------------
+
+# 16. Попытка вставки элемента в недопустимую позицию
+    def test_regression16(self):
         da = make_da(32)
         try:
             da.insert(100, 1000)
         except IndexError:
             self.assertEqual(da[0], 0)
+#------------------------------------------------------------------------------------------------------------------------
 
 # Ф-я формирования и заполнения динамического массива
 def make_da(number):
