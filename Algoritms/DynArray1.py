@@ -42,7 +42,14 @@ class DynArray:
         if i < 0 or i > self.count:
             raise IndexError('Index is out of bounds')
         elif i == self.count:    # если индекс равен длине текущего массива, то элемент добавляем в конец
-            self.append(itm)
+            if self.count == self.capacity:
+                self.resize(2*self.capacity)    # размер буфера увеличиваем вдвое
+            new_array = []
+            for j in range(self.count):
+                new_array.append(self.array[j])
+            new_array.append(itm)
+            self.array = new_array
+            self.count += 1
         else:
             if self.count == self.capacity:
                 self.resize(2*self.capacity)    # размер буфера увеличиваем вдвое
