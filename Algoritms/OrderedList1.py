@@ -58,7 +58,14 @@ class OrderedList:
                 node = self.head
                 while node is not None:
                     if node.next is not None:    # если еще не добрались до последнего элемента
-                        if self.compare(node.value, value) == -1 and self.compare(value, node.next.value) == -1:
+                        if self.compare(node.value, value) == -1 and (self.compare(value, node.next.value) == -1
+                           or self.compare(value, node.next.value) == 0):
+                            node_new.prev = node
+                            node_new.next = node.next
+                            node.next.prev = node_new
+                            node.next = node_new
+                            return
+                        elif self.compare(node.value, value) == 0 and self.compare(value, node.next.value) == -1:
                             node_new.prev = node
                             node_new.next = node.next
                             node.next.prev = node_new
@@ -96,7 +103,14 @@ class OrderedList:
                 node = self.head
                 while node is not None:
                     if node.next is not None:    # если еще не добрались до последнего элемента
-                        if self.compare(node.value, value) == 1 and self.compare(value, node.next.value) == 1:
+                        if self.compare(node.value, value) == 1 and (self.compare(value, node.next.value) == 1
+                           or self.compare(value, node.next.value) == 0):
+                            node_new.prev = node
+                            node_new.next = node.next
+                            node.next.prev = node_new
+                            node.next = node_new
+                            return
+                        elif self.compare(node.value, value) == 0 and self.compare(value, node.next.value) == 1:
                             node_new.prev = node
                             node_new.next = node.next
                             node.next.prev = node_new
