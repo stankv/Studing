@@ -134,14 +134,14 @@ class OrderedList:
             while node is not None:
                 if node.value == val:
                     return node
-                if node.prev.value < val and node.next.value > val:
-                    return None
+                if node.prev is not None and node.prev.value < val and node.next is not None and node.next.value > val:
+                   return None
                 node = node.next
         else:    # если элементы массива по убыванию
             while node is not None:
                 if node.value == val:
                     return node
-                if node.prev.value > val and node.next.value < val:
+                if node.prev is not None and node.prev.value > val and node.next is not None and node.next.value < val:
                     return None
                 node = node.next
         return None
