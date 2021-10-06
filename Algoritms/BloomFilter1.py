@@ -10,8 +10,6 @@ class BloomFilter:
         self.bit_array = bitarray.bitarray()
         for i in range(self.filter_len):
             self.bit_array.append(0)
-        print(self.bit_array)
-
 
     def hash1(self, str1):
         code = 0
