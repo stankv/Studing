@@ -103,7 +103,7 @@ class SimpleTree:
         if self.Root is None:
             return 0
         elif self.Root is not None and self.Root.Children == []:
-            return 0
+            return 1
         else:
             return Count_Leaves(self.Root, [self.Root], [])
     
