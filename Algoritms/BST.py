@@ -1,7 +1,7 @@
 # ДЕРЕВЬЯ.
 # Реализация двоичного дерева поиска.
 
-from ast import Delete
+from ast import Delete, Sub
 
 
 class BSTNode:
@@ -100,64 +100,67 @@ class BST:
 	
     # Метод удаления узла по его ключу
     def DeleteNodeByKey(self, key):
-        DeleteNode = self.FindNodeByKey(key)
-        if DeleteNode.NodeHasKey:    # если узел найден
-            if DeleteNode.Node == self.Root:    # если найденный узел корневой
-                if DeleteNode.Node.LeftChild is None and DeleteNode.Node.RightChild is None:    # если узел не имеет потомков
-                    self.Root = None
-                    return True
-                elif DeleteNode.Node.LeftChild is not None or DeleteNode.Node.RightChild is not None:    # если есть только 1 потомок
-                    if DeleteNode.Node.LeftChild is not None:
-                        node = DeleteNode.Node.LeftChild 
-                        if node.LeftChild is None and node.RightChild is None:    # и этот потомок не имеет потомков
-                            self.Root = node
-                            return True
-                        else:
-                            return False    # если потомок имеет потомка, то удаление узла не производится
-                    elif DeleteNode.Node.RightChild is not None:
-                        node = DeleteNode.Node.RightChild 
-                        if node.LeftChild is None and node.RightChild is None:
-                            self.Root = node
-                            return True
-                        else:
-                            return False    # если потомок имеет потомка, то не удаление узла не производится
-                    else:
-                        self.Root = DeleteNode.Node.RightChild
-                        return True
-                elif DeleteNode.Node.LeftChild is not None and DeleteNode.Node.RightChild is not None:    # если 2 потомока
-                    return False    # если найденный узел корневой и имеет 2 потомка, то узел не удаляется
-            elif DeleteNode.Node != self.Root:    # если найденный узел НЕ корневой
-                if DeleteNode.Node.LeftChild is None and DeleteNode.Node.RightChild is None:    # и если это лист
-                    DeleteNode.Node.Parent = None
-                    DeleteNode.Node = None
-                    return True
-                elif DeleteNode.Node.LeftChild is not None or DeleteNode.Node.RightChild is not None:    # если не лист
-                    if DeleteNode.Node.LeftChild is not None:                                            # и есть 1 потомок
-                        DeleteNode.Node.LeftChild.Parent = DeleteNode.Node.Parent
-                        DeleteNode.Node.Parent = None
-                        DeleteNode.Node = None
-                        return True
-                    else:
-                        DeleteNode.Node.RightChild.Parent = DeleteNode.Node.Parent
-                        DeleteNode.Node.Parent = None
-                        DeleteNode.Node = None
-                        return True
-                elif DeleteNode.Node.LeftChild is not None and DeleteNode.Node.RightChild is not None:    # если не лист
-                    node = DeleteNode.Node.RightChild                                                     # и имеет 2 потомков
-                    if node.LeftChild is None:
-                        node.Parent = DeleteNode.Node.Parent
-                        DeleteNode.Node.Parent = None
-                        DeleteNode.Node = None
-                        return True
-                    else:
-                        while node.LeftChild is not None:
-                            node = node.LeftChild
-                        node.Parent = DeleteNode.Node.Parent
-                        DeleteNode.Node.Parent = None
-                        DeleteNode.Node = None
-                        return True
+
+        def Delete_Node(DeleteNode):
+            DeleteNode.Parent = None 
+            DeleteNode.LeftChild = None 
+            DeleteNode.RightChild = None 
+        
+        def Move_Node(DeleteNode, SuccessorNode):
+            # определяем связь с родителем 
+            if DeleteNode is self.Root:
+                SuccessorNode.Parent = None
+                self.Root = SuccessorNode
+            else:
+                SuccessorNode.Parent = DeleteNode.Parent 
+                if DeleteNode.Parent.LeftChild == DeleteNode:
+                    DeleteNode.Parent.LeftChild = SuccessorNode
+                else:
+                    DeleteNode.Parent.RightChild == DeleteNode
+                    DeleteNode.Parent.RightChild = SuccessorNode
+            if DeleteNode.LeftChild == SuccessorNode:    # если у удаляемого узла только левый потомок
+                return
+            if DeleteNode.LeftChild is not None:    # определяем связь с левым потомком удаляемого узла
+                SuccessorNode.LeftChild = DeleteNode.LeftChild
+                DeleteNode.LeftChild.Parent = SuccessorNode
+            if DeleteNode.RightChild != SuccessorNode:    # определяем связь с правым потомком удаляемого узла
+                SuccessorNode.RightChild = DeleteNode.RightChild
+                DeleteNode.RightChild.Parent = SuccessorNode
+
+        BSTFind_Node = self.FindNodeByKey(key)
+        if BSTFind_Node.NodeHasKey is False:    # если узел не найден
+            return False
+        
+        DeleteNode = BSTFind_Node.Node
+        if DeleteNode == self.Root and DeleteNode.LeftChild is None and DeleteNode.RightChild is None:    # Если есть только корень
+            Delete_Node(DeleteNode)
+            self.Root = None
+            return True
+
+        # Если удаляемый узел ЛИСТ
+        if DeleteNode.LeftChild is None and DeleteNode.RightChild is None:
+            if DeleteNode.Parent.LeftChild == DeleteNode:
+                DeleteNode.Parent.LeftChild = None
+            else:
+                DeleteNode.Parent.RightChild = None
+            Delete_Node(DeleteNode)
+            return True
+    
+        if DeleteNode.RightChild is None:
+            Move_Node(DeleteNode, DeleteNode.LeftChild)
+        elif DeleteNode.RightChild.LeftChild is None:    # если у правого потомка удаляемого узла нет левого потомка
+            Move_Node(DeleteNode, DeleteNode.RightChild)
         else:
-            return False # если узел не найден
+            Successor = self.FinMinMax(DeleteNode.RightChild, False)
+            if Successor.RightChild is not None:
+                Successor.Parent.LeftChild = Successor.RightChild
+                Successor.RightChild.Parent = Successor.Parent
+            elif DeleteNode.RightChild != Successor:
+                Successor.Parent.LeftChild = None
+            Move_Node(DeleteNode, Successor)
+        Delete_Node(DeleteNode)
+        return True 
+
 
     # Метод получения количества всех узлов в дереве
     def Count(self):
@@ -177,44 +180,3 @@ class BST:
                 visited_nodes.append(node)
                 self.__GetAllNodes(node, list_all_nodes, visited_nodes)
         return list_all_nodes
-
-"""node8 = BSTNode(8, 1, None)
-node4 = BSTNode(4, 2, node8)
-node12 = BSTNode(12, 3, node8)
-node2 = BSTNode(2, 4, node4)
-node6 = BSTNode(6, 5, node4)
-node10 = BSTNode(10, 6, node12)
-node14 = BSTNode(14, 7, node12)
-node1 = BSTNode(1, 8, node2)
-node3 = BSTNode(3, 9, node2)
-node5 = BSTNode(5, 10, node6)
-node7 = BSTNode(7, 11, node6)
-node9 = BSTNode(9, 12, node10)
-node11 = BSTNode(11, 13, node10)
-node13 = BSTNode(13, 14, node14)
-node15 = BSTNode(15, 15, node14)
-
-node8.LeftChild = node4
-node8. RightChild = node12
-node4.LeftChild = node2
-node4. RightChild = node6
-node12.LeftChild = node10
-node12. RightChild = node14
-node2.LeftChild = node1
-node2. RightChild = node3
-node6.LeftChild = node5
-node6. RightChild = node7
-node10.LeftChild = node9
-node10. RightChild = node11
-node14.LeftChild = node13
-node14. RightChild = node15
-
-My_Tree = BST(node8)
-
-print(My_Tree.Count())
-print()
-z = My_Tree.FindNodeByKey(20)
-print('key: ', z.Node.NodeKey)
-print('value: ', z.Node.NodeValue)
-print('NodeHasKey: ', z.NodeHasKey)
-print('ToLeft: ', z.ToLeft)"""
