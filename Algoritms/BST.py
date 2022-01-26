@@ -1,9 +1,6 @@
 # ДЕРЕВЬЯ.
 # Реализация двоичного дерева поиска.
 
-from ast import Delete, Sub
-
-
 class BSTNode:
 	
     def __init__(self, key, val, parent):
