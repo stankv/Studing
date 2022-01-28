@@ -221,8 +221,8 @@ class BST:
             if Node is None:
                 return []
             res = []
-            res.extend(InorderTraversal(Node.LeftChild))
-            res.extend(InorderTraversal(Node.RightChild))
+            res.extend(PostorderTraversal(Node.LeftChild))
+            res.extend(PostorderTraversal(Node.RightChild))
             res.append(Node)
             return res
 
@@ -231,8 +231,8 @@ class BST:
                 return []
             res = []
             res.append(Node)
-            res.extend(InorderTraversal(Node.LeftChild))
-            res.extend(InorderTraversal(Node.RightChild))
+            res.extend(PreorderTraversal(Node.LeftChild))
+            res.extend(PreorderTraversal(Node.RightChild))
             return res
         
         if self.Root is None:
@@ -246,7 +246,7 @@ class BST:
             List_All_Nodes = PreorderTraversal(self.Root)
         return tuple(List_All_Nodes)
 
-
+    
 """node8 = BSTNode(8, 1, None)
 node4 = BSTNode(4, 2, node8)
 node12 = BSTNode(12, 3, node8)
@@ -281,8 +281,8 @@ node14. RightChild = node15
 My_Tree = BST(node8)
 
 a = []
-z = My_Tree.DeepAllNodes(0)
+z = My_Tree.DeepAllNodes(2)
 for node in z:
-    a.append(node.Node.NodeKey)
+    a.append(node.NodeKey)
 print(a)
 print()"""
