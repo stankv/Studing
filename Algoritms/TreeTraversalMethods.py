@@ -187,8 +187,7 @@ class BST:
     #  Метод обхода дерева в ширину. Возвращает кортеж объектов класса BSTFind
     def WideAllNodes(self):
         if self.Root is None:
-            BSTFind_Node = BSTFind()
-            return tuple(BSTFind_Node)
+            return None
         # формируем список узлов дерева
         List_All_Nodes = [self.Root]
         Visited_Nodes = []
@@ -205,14 +204,7 @@ class BST:
             Number_Visited_Nodes = len(Visited_Nodes)
             Number_All_Nodes = len(List_All_Nodes)
         Number_Visited_Nodes = None
-        # формируем из списка узлов список объектов BSTFind
-        List_BSTFindNode = []
-        for node in List_All_Nodes:
-            BSTFind_Node = BSTFind()
-            BSTFind_Node.Node = node
-            BSTFind_Node.NodeHasKey = True
-            List_BSTFindNode.append(BSTFind_Node)
-        return tuple(List_BSTFindNode)
+        return tuple(List_All_Nodes)
 
     #  3 метода обхода дерева в глубину (рекурсия). Возвращает кортеж объектов класса BSTFind
     def DeepAllNodes(self, order):
@@ -244,8 +236,7 @@ class BST:
             return res
         
         if self.Root is None:
-            BSTFind_Node = BSTFind()
-            return tuple(BSTFind_Node)
+            return None
 
         if order == 0:    # in-order: Left -> Root -> Right
             List_All_Nodes = InorderTraversal(self.Root)
@@ -253,15 +244,7 @@ class BST:
             List_All_Nodes = PostorderTraversal(self.Root)
         elif order == 2:    # pre-order: Root -> Left ->Right
             List_All_Nodes = PreorderTraversal(self.Root)
-        
-        # формируем из списка узлов список объектов BSTFind
-        List_BSTFindNode = []
-        for node in List_All_Nodes:
-            BSTFind_Node = BSTFind()
-            BSTFind_Node.Node = node
-            BSTFind_Node.NodeHasKey = True
-            List_BSTFindNode.append(BSTFind_Node)
-        return tuple(List_BSTFindNode)
+        return tuple(List_All_Nodes)
 
 
 """node8 = BSTNode(8, 1, None)
