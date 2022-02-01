@@ -45,22 +45,27 @@ class BalancedBST:
             return self.Root
 
 
-
+    # проверка является ли дерево сбалансированным
     def IsBalanced(self, root_node):
 
-        def CheckBalance(root_node, difference):
+        def DepthSubtree(root_node):
+            current_depth = 0
             if root_node.LeftChild:
-                difference += 1
-                CheckBalance(root_node.LeftChild, difference)
+                current_depth = max(current_depth,  DepthSubtree(root_node.LeftChild))
             if root_node.RightChild:
-                difference -= 1
-                CheckBalance(root_node.RightChild, difference)
+                current_depth = max(current_depth,  DepthSubtree(root_node.RightChild))
+            return current_depth + 1
         
-        if root_node is None:
-            return False
-        difference = 0
-        CheckBalance(root_node, difference)
-        if difference >= 0 and difference <= 1:
+        depth_of_left_subtree = 0
+        depth_of_right_subtree = 0
+        if root_node.LeftChild:
+            self.IsBalanced(root_node.LeftChild)
+            depth_of_left_subtree = DepthSubtree(root_node.LeftChild)
+        if root_node.RightChild:
+            self.IsBalanced(root_node.RightChild)
+            depth_of_right_subtree = DepthSubtree(root_node.RightChild)
+        
+        if abs(depth_of_left_subtree - depth_of_right_subtree) <=1:
             return True
         else:
             return False
