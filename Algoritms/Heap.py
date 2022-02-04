@@ -23,8 +23,12 @@ class Heap:
 
     # возвращает значение корня и перестраивает кучу
     def GetMax(self):
-        if self.HeapArray[0] is None or self.HeapArray == []:
+        if self.HeapArray == [] or self.HeapArray[0] is None:
 	        return -1 # если куча пуста
+        if self.Size == 1:
+            max_key = self.HeapArray[0]
+            self.HeapArray[0] = None
+            return max_key
         elif self.HeapArray[0] is not None and (self.HeapArray[1] is None and self.HeapArray[2] is None):
             max_key = self.HeapArray[0]
             self.HeapArray[0] = None
@@ -91,6 +95,8 @@ class Heap:
 
     # добавляем новый элемент key в кучу и перестраиваем её
     def Add(self, key):
+        if self.HeapArray == []:
+            return False
         if self.HeapArray[-1] is not None:
 	        return False # если куча вся заполнена
         if self.HeapArray[0] == None:
@@ -109,22 +115,3 @@ class Heap:
                 if index_parent == 0:
                     return True
                 index = index_parent
-
-"""#z = [11,9,4,7,8,3,1,2,5,6]
-#z = [8,2,5,11,4,9,6,3,1,7]
-z = [1,2,3,4,5,6,7]
-Tree = Heap()
-Tree.MakeHeap(z, 2)
-print(Tree.Add(10))
-print(Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)
-print(Tree.GetMax(),Tree.HeapArray)"""
