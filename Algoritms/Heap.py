@@ -60,6 +60,8 @@ class Heap:
         while True:
             index_leftchild = self.getIndexLeftChild(index)
             index_rightchild = self.getIndexRightChild(index)
+            if index_leftchild >= self.Size or index_rightchild >= self.Size:
+                return max_key
             if self.HeapArray[index_leftchild] is None and self.HeapArray[index_rightchild] is None:
                 return max_key
             elif self.HeapArray[index_leftchild] is not None and self.HeapArray[index_rightchild] is None:
@@ -115,3 +117,15 @@ class Heap:
                 if index_parent == 0:
                     return True
                 index = index_parent
+
+"""My_Heap = Heap()
+My_Heap.MakeHeap([8,5,3,2],2)
+print(My_Heap.HeapArray)
+print(My_Heap.GetMax())
+print(My_Heap.HeapArray)
+print(My_Heap.GetMax())
+print(My_Heap.HeapArray)
+print(My_Heap.GetMax())
+print(My_Heap.HeapArray)
+print(My_Heap.GetMax())
+print(My_Heap.HeapArray)"""
