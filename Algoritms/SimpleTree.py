@@ -36,13 +36,13 @@ class SimpleTree:
     # Метод выдачи всех узлов дерева в определённом порядке
     def GetAllNodes(self):
         # рекурсивный обход дерева
-        def Count_Nodes(node, list_all_nodes):
-            if node.Children == []:
-                return list_all_nodes
-            else:
-                list_all_nodes.extend(node.Children)
-                for Child in node.Children:
-                    Count_Nodes(Child, list_all_nodes)
+        def Count_Nodes(Node, list_all_nodes, visited_nodes):
+            if Node.Children != []:
+                list_all_nodes.extend(Node.Children)
+            for Children in Node.Children:
+                if Children not in visited_nodes:
+                    visited_nodes.append(Children)
+                    Count_Nodes(Children, list_all_nodes, visited_nodes)
             return list_all_nodes
         
         if self.Root is None:
@@ -50,7 +50,7 @@ class SimpleTree:
         elif self.Root is not None and self.Root.Children == []:
             return [self.Root]
         else:
-            return Count_Nodes(self.Root, [self.Root])
+            return Count_Nodes(self.Root, [self.Root], [self.Root])
     
     # Метод поиска узлов по значению
     def FindNodesByValue(self, val):
