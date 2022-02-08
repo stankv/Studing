@@ -95,7 +95,7 @@ class SimpleGraph:
                 working_stack.push(self.vertex[VTo])
                 return working_stack
             flag = False
-            for i in range(len(self.max_vertex)):
+            for i in range(self.max_vertex):
                 if i == VFrom:
                     continue
                 if not self.vertex[i].hit:
