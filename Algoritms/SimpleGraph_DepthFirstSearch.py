@@ -93,7 +93,7 @@ class SimpleGraph:
             working_stack.push(self.vertex[X])    # помещаем вершину Х в стек
             if self.m_adjacency[X][VTo] == 1:    
                 working_stack.push(self.vertex[VTo])
-                return working_stack
+                return working_stack.stack
             flag = False
             for i in range(self.max_vertex):
                 if i == VFrom:
@@ -108,3 +108,17 @@ class SimpleGraph:
             if working_stack.size == 0:
                 return []
             X = self.vertex.index(working_stack.peek())
+
+"""z = SimpleGraph(5)
+z.AddVertex('A')
+z.AddVertex('B')
+z.AddVertex('C')
+z.AddVertex('D')
+z.AddVertex('E')
+for i in z.vertex:
+    print(i.Value)
+z.m_adjacency = [[0,1,1,1,0], [1,0,0,1,1], [1,0,0,1,0], [1,1,1,1,1], [0,1,0,1,0]]
+res = z.DepthFirstSearch(1, 2)
+print(res)
+for i in res:
+    print(i.Value)"""
