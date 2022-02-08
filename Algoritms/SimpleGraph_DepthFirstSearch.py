@@ -98,7 +98,7 @@ class SimpleGraph:
             for i in range(self.max_vertex):
                 if i == VFrom:
                     continue
-                if not self.vertex[i].hit:
+                if self.m_adjacency[X][i] == 1 and self.vertex[i].hit is False:
                     X = i
                     flag = True
                     break
@@ -107,4 +107,4 @@ class SimpleGraph:
             working_stack.pop()
             if working_stack.size == 0:
                 return []
-            X = self.vertex.index(working_stack.pop())
+            X = self.vertex.index(working_stack.peek())
