@@ -82,40 +82,44 @@ class SimpleGraph:
 
     # Метод поиска пути в графе от VFrom до VTo (возвращается список узлов или [] если пути нет)
     def DepthFirstSearch(self, VFrom, VTo):
-        if VFrom >= self.max_vertex or VTo >= self.max_vertex:    # проверка корректности входных данных
-            return []
-        working_stack = Stack()    # создаем объект типа stack, сам стек пустой
-        for vertex in self.vertex:    # все вершины графа отмечаем как непосещённые
+        working_stack = Stack()  # создаем объект типа stack, сам стек пустой
+        for vertex in self.vertex: # все вершины графа отмечаем как непосещённые
             vertex.hit = False
-        X = VFrom    # выбираем текущую вершину (это индекс верщины в массиве self.vertex)
+                
+        X = VFrom # выбираем текущую вершину (это индекс верщины в массиве self.vertex)
         while True:
-            self.vertex[X].hit = True    # фиксируем вершину X как посещённую
-            working_stack.push(self.vertex[X])    # помещаем вершину Х в стек
-            if self.m_adjacency[X][VTo] == 1:    
+            self.vertex[X].hit = True # фиксируем вершину как посещённую.
+            working_stack.push(self.vertex[X]) # помещаем вершину в стек
+            if self.m_adjacency[X][VTo] == 1: # если искомая вершина оказывается смежной
                 working_stack.push(self.vertex[VTo])
                 return working_stack.stack
-            for i in range(self.max_vertex):
+            index = 0
+            while index < self.max_vertex - 1:
                 flag = True
-                if self.m_adjacency[X][i] == 1 and self.vertex[i].hit is False:
-                    X = i
+                if self.m_adjacency[X][index] == 1 and self.vertex[index].hit == False:
+                    X = index
                     flag = False
                     break
+                index += 1
             if flag:
                 working_stack.pop()
-                if working_stack.size == 0:
+                if working_stack.stack == []:
                     return []
                 X = self.vertex.index(working_stack.pop())
 
-"""z = SimpleGraph(5)
+    
+
+"""z = SimpleGraph(6)
 z.AddVertex('A')
 z.AddVertex('B')
 z.AddVertex('C')
 z.AddVertex('D')
 z.AddVertex('E')
+z.AddVertex('F')
 for i in z.vertex:
     print(i.Value)
-z.m_adjacency = [[0,1,1,1,0], [1,0,0,1,1], [1,0,0,1,0], [1,1,1,1,1], [0,1,0,1,0]]
-res = z.DepthFirstSearch(2, 4)
+z.m_adjacency = [[0,1,1,1,0,0], [1,0,0,1,1,0], [1,0,0,1,0,0], [1,1,1,1,1,0], [0,1,0,1,0,0], [0,0,0,0,0,0]]
+res = z.DepthFirstSearch(4, 5)
 print(res)
 for i in res:
     print(i.Value)"""
