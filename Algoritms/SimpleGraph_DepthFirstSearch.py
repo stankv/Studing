@@ -94,20 +94,17 @@ class SimpleGraph:
             if self.m_adjacency[X][VTo] == 1:    
                 working_stack.push(self.vertex[VTo])
                 return working_stack.stack
-            flag = False
             for i in range(self.max_vertex):
-                if i == VFrom:
-                    continue
+                flag = True
                 if self.m_adjacency[X][i] == 1 and self.vertex[i].hit is False:
                     X = i
-                    flag = True
+                    flag = False
                     break
             if flag:
-                continue
-            working_stack.pop()
-            if working_stack.size == 0:
-                return []
-            X = self.vertex.index(working_stack.peek())
+                working_stack.pop()
+                if working_stack.size == 0:
+                    return []
+                X = self.vertex.index(working_stack.pop())
 
 """z = SimpleGraph(5)
 z.AddVertex('A')
@@ -118,7 +115,7 @@ z.AddVertex('E')
 for i in z.vertex:
     print(i.Value)
 z.m_adjacency = [[0,1,1,1,0], [1,0,0,1,1], [1,0,0,1,0], [1,1,1,1,1], [0,1,0,1,0]]
-res = z.DepthFirstSearch(1, 2)
+res = z.DepthFirstSearch(2, 4)
 print(res)
 for i in res:
     print(i.Value)"""
