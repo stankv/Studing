@@ -1,9 +1,6 @@
 # Поиск пути в графе (обход в ширину) - функция BredthFirstSearch(VFrom, VTo).
 
 # Односторонняя очередь
-from unittest import result
-
-
 class Queue:
     def __init__(self):
         self.queue = []
